@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-NEXT | THE ABSOLUTE INFLUENCE</title>
+    
+    <!-- CDNs -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Noto+Sans+JP:wght@100;400;700;900&display=swap');
+
+        :root {
+            --neon-blue: #00f2ff;
+            --neon-purple: #9d00ff;
+            --bg-black: #020202;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #ffffff;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            scrollbar-width: none;
+            cursor: none; /* Custom cursor implementation */
+        }
+        body::-webkit-scrollbar { display: none; }
+
+        .font-sync { font-family: 'Syncopate', sans-serif; }
+        
+        /* Neon Typography */
+        .giant-title {
+            font-size: clamp(3rem, 14vw, 15rem);
+            line-height: 0.8;
+            letter-spacing: -0.06em;
+            font-weight: 900;
+        }
+
+        .outline-text {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, var(--neon-blue), var(--neon-purple), #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 6s linear infinite;
+        }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--neon-blue);
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+        }
+
+        /* Interactive Background & Cursor */
+        #bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #0d001a 0%, #000 100%);
+            z-index: -1;
+        }
+
+        #custom-cursor {
+            width: 15px; height: 15px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+        }
+
+        #cursor-follower {
+            width: 40px; height: 40px;
+            border: 1px solid var(--neon-blue);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease-out;
+            mix-blend-mode: difference;
+        }
+
+        /* Animation States */
+        .reveal { opacity: 0; transform: translateY(40px); }
+    </style>
+</head>
+<body class="selection:bg-[var(--neon-blue)] selection:text-black">
+
+    <div id="custom-cursor"></div>
+    <div id="cursor-follower"></div>
+    <div id="bg-glow"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] p-8 md:p-12 flex justify-between items-center mix-blend-difference">
+        <div class="text-3xl font-sync font-bold tracking-tighter italic text-white">V-NEXT<span class="text-[var(--neon-blue)]">.</span></div>
+        <div class="hidden md:flex gap-16 text-[10px] font-bold tracking-[0.5em] uppercase text-white/50">
+            <a href="#about" class="hover:text-[var(--neon-blue)] transition">Philosophy</a>
+            <a href="#method" class="hover:text-[var(--neon-blue)] transition">Methodology</a>
+            <a href="#talents" class="hover:text-[var(--neon-blue)] transition">Talents</a>
+            <a href="#entry" class="px-10 py-3 bg-white text-black rounded-full hover:bg-[var(--neon-blue)] hover:text-white transition-all transform hover:scale-110">Entry</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative px-6">
+        <div class="text-center z-10">
+            <h2 class="hero-item font-sync text-[10px] tracking-[2em] mb-12 text-gray-600 opacity-0 uppercase">Top 0.1% Agency</h2>
+            <h1 class="hero-item giant-title mb-12 opacity-0">
+                BEYOND<br><span class="gradient-text italic">ICON.</span>
+            </h1>
+            <p class="hero-item max-w-2xl mx-auto text-gray-500 text-sm md:text-lg tracking-[0.3em] leading-loose opacity-0">
+                業界最大手のネットワークを凌駕する。 <br>
+                私たちは、個の影響力を「国家資産」へと変貌させる。
+            </p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="about" class="py-40 bg-zinc-950/20 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-24">
+            <div class="reveal">
+                <div class="text-[8px] font-sync tracking-[1em] text-gray-700 mb-6 uppercase">Total Impression</div>
+                <div class="text-8xl font-black italic mb-6">1.8B<span class="text-[var(--neon-blue)]">+</span></div>
+                <p class="text-gray-500 text-xs tracking-[0.2em] leading-relaxed">国内トップクラスの数値を背景に、最短でアイコンへと昇華させる。</p>
+            </div>
+            <div class="reveal">
+                <div class="text-[8px] font-sync tracking-[1em] text-gray-700 mb-6 uppercase">Global Reach</div>
+                <div class="text-8xl font-black italic mb-6">500<span class="text-[var(--neon-purple)]">+</span></div>
+                <p class="text-gray-500 text-xs tracking-[0.2em] leading-relaxed">LA / Seoul / Tokyo。世界基準のエージェンシー機能が、あなたの盾となる。</p>
+            </div>
+            <div class="reveal">
+                <div class="text-[8px] font-sync tracking-[1em] text-gray-700 mb-6 uppercase">Selection Rate</div>
+                <div class="text-8xl font-black italic mb-6">0.1<span class="text-white text-4xl">%</span></div>
+                <p class="text-gray-500 text-xs tracking-[0.2em] leading-relaxed">選ばれた才能のみが、この頂点に立つことができる。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Methodology Section -->
+    <section id="method" class="py-60 px-6">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="font-sync text-sm tracking-[1em] mb-32 text-center text-gray-500">METHODOLOGY</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="glass-card p-16 rounded-[4rem] reveal">
+                    <i data-lucide="brain-circuit" class="w-16 h-16 text-[var(--neon-blue)] mb-12"></i>
+                    <h3 class="text-4xl font-black mb-8 italic italic">Data Logic</h3>
+                    <p class="text-gray-500 text-sm tracking-[0.2em] leading-loose">
+                        独自のAIアルゴリズム解析。ファン心理を可視化し、最短距離でトレンドを支配する。感覚ではなく、論理で勝つ。
+                    </p>
+                </div>
+                <div class="glass-card p-16 rounded-[4rem] reveal">
+                    <i data-lucide="shield-check" class="w-16 h-16 text-[var(--neon-purple)] mb-12"></i>
+                    <h3 class="text-4xl font-black mb-8 italic italic">Absolute Guard</h3>
+                    <p class="text-gray-500 text-sm tracking-[0.2em] leading-loose">
+                        専属弁護士チームによる誹謗中傷への即時開示請求。あなたが表現にのみ集中できる絶対的な聖域を構築。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Talents Section -->
+    <section id="talents" class="py-40 bg-zinc-950/40">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <h2 class="text-5xl md:text-8xl font-black mb-32 outline-text italic">THE CURATED.</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Placeholder for high-end talent cards -->
+                <div class="aspect-[3/4] glass-card rounded-[3rem] overflow-hidden relative group reveal">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                    <div class="w-full h-full flex items-center justify-center opacity-10 group-hover:scale-110 transition duration-1000">
+                        <i data-lucide="user" class="w-40 h-40"></i>
+                    </div>
+                    <div class="absolute bottom-12 left-12 z-20">
+                        <div class="text-[var(--neon-blue)] font-bold text-[10px] tracking-widest mb-3 italic">VIRTUAL DIVA</div>
+                        <h4 class="text-5xl font-black italic">MIRA</h4>
+                    </div>
+                </div>
+                <div class="aspect-[3/4] glass-card rounded-[3rem] overflow-hidden relative group reveal">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
+                    <div class="w-full h-full flex items-center justify-center opacity-10 group-hover:scale-110 transition duration-1000">
+                        <i data-lucide="user" class="w-40 h-40 text-[var(--neon-purple)]"></i>
+                    </div>
+                    <div class="absolute bottom-12 left-12 z-20">
+                        <div class="text-[var(--neon-purple)] font-bold text-[10px] tracking-widest mb-3 italic">PRO GAMER</div>
+                        <h4 class="text-5xl font-black italic">JAX</h4>
+                    </div>
+                </div>
+                <!-- More cards can be added here -->
+                <div class="aspect-[3/4] glass-card rounded-[3rem] flex flex-col items-center justify-center border-dashed border-white/10 hover:border-[var(--neon-blue)] transition group reveal">
+                    <p class="text-[10px] font-bold tracking-widest opacity-20 italic mb-6">ONLY FOR THE 0.1%</p>
+                    <a href="#entry" class="text-[var(--neon-blue)] font-bold hover:underline tracking-widest">Audition</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audition Section -->
+    <section id="entry" class="py-60 bg-white text-black text-center relative overflow-hidden">
+        <div class="relative z-10 px-6">
+            <h2 class="text-6xl md:text-[14rem] font-black italic leading-none mb-20 tracking-tighter reveal">RULE THE<br><span class="bg-black text-white px-8">NEW ERA.</span></h2>
+            <p class="text-2xl md:text-4xl font-bold mb-24 tracking-[0.5em] reveal">あなたの真価を、世界が待っている。</p>
+            <button class="bg-black text-white px-24 py-12 text-2xl font-black rounded-full hover:scale-110 transition shadow-2xl reveal">APPLY NOW</button>
+            <p class="mt-20 text-[10px] font-black opacity-30 uppercase tracking-[1.5em] italic">V-NEXT Strategic Influence Group.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="p-20 bg-black border-t border-white/5 text-center">
+        <div class="text-4xl font-sync font-bold italic mb-12 text-white">V-NEXT<span class="text-[var(--neon-blue)]">.</span></div>
+        <p class="text-[10px] text-gray-800 tracking-[1.5em] uppercase italic">&copy; 2026 V-NEXT SYSTEMS. BEYOND INFLUENCE.</p>
+    </footer>
+
+    <script>
+        // Init Icons
+        lucide.createIcons();
+
+        // GSAP Initialization
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor Movement
+        const cursor = document.getElementById('custom-cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(follower, { x: e.clientX - 12, y: e.clientY - 12, duration: 0.3 });
+            
+            // Dynamic BG Lighting
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            gsap.to('#bg-glow', {
+                background: `radial-gradient(circle at ${x}% ${y}%, #0d001a 0%, #000 100%)`,
+                duration: 0.8
+            });
+        });
+
+        // Entrance Animation
+        window.onload = () => {
+            gsap.to('.hero-item', { opacity: 1, y: 0, duration: 1.5, stagger: 0.4, ease: "power4.out" });
+        };
+
+        // Scroll Reveal Animations
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.to(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                },
+                opacity: 1,
+                y: -20,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
